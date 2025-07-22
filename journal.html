@@ -2,86 +2,100 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>دفتر خاطرات</title>
+  <title>ورود محرمانه</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
   <style>
     body {
-      background: url('https://i.imgur.com/yGFwB6F.jpg') no-repeat center center fixed;
+      background: url('https://i.imgur.com/I4nG1OU.jpg') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Vazir', sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cinzel', serif;
       color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       direction: rtl;
-      padding: 40px;
     }
 
-    #journal-container {
-      background-color: rgba(0, 0, 0, 0.5);
-      max-width: 800px;
-      height: 500px;
-      margin: auto;
-      padding: 30px;
-      overflow-y: auto;
-      border: 2px solid #ccc;
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 50px;
       border-radius: 12px;
-      box-shadow: 0 0 20px black;
+      box-shadow: 0 0 30px #000;
+      text-align: center;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #f5e9c9;
+      text-shadow: 0 0 5px #222;
+    }
+
+    input {
+      width: 80%;
+      padding: 15px;
+      font-size: 20px;
+      background: #222;
+      border: none;
+      color: #fff;
+      border-bottom: 2px solid #888;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 30px;
       font-size: 18px;
-      line-height: 2;
-      text-align: justify;
-    }
-
-    #journal-container::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #journal-container::-webkit-scrollbar-thumb {
-      background: #888;
+      background-color: #c29f6c;
+      color: black;
+      border: none;
+      cursor: pointer;
       border-radius: 4px;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: normal;
-      color: #ffd;
-      text-shadow: 0 0 5px black;
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #f88;
     }
   </style>
 </head>
 <body>
-
-  <audio autoplay>
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3" type="audio/mpeg">
-  </audio>
-
-  <div id="journal-container">
-    <h2>۲ اکتبر ۲۰۰۰</h2>
-    امروز حس عجیبی دارم…<br><br>
-    اون‌قدر عجیب که از صبح چند بار خواستم چیزی توی دفتر ننویسم.<br>
-    اما سکوت بدتره. همیشه بدتره.<br>
-    نمی‌دونم چرا… اما حس می‌کنم نباید اون کار رو می‌کردم.<br>
-    ولی وقتی سباستین اومد، نگاهش، صداش، درماندگی‌اش…<br>
-    انگار یه چیزی توی دلم شکست.<br>
-    گفت همه سرمایه‌ش رو تو قمار از دست داده.<br>
-    همه چیز.<br>
-    و فقط از من کمک خواست. نه منت، نه خواهش، فقط یک جمله:<br>
-    «می‌تونی نجاتم بدی؟»<br><br>
-    نمی‌دونم از روی ترحم بود، یا احساس مسئولیت.<br>
-    اما هر چی که بود… اون چک لعنتی امضا شد.<br>
-    75 هزار دلار.<br>
-    دستم لرزید، اما امضا رو زدم.<br>
-    الان… فقط یه حس درونمه که آرومم نمی‌ذاره.<br>
-    نه برای پول… برای استیو.<br>
-    اگه بفهمه من بدون مشورت باهاش، اینکارو کردم...<br>
-    می‌ترسم. نه از دعوا. از شکستن اعتمادش.<br>
-    از اون نگاه خاصی که همیشه موقع ناامیدی می‌زنه.<br>
-    نمی‌دونم… شاید فقط دارم زیادی فکر می‌کنم.<br>
-    اما چیزی توی این ماجرا درست نیست.<br>
-    انگار یه چیزی قراره خراب بشه.<br>
-    فقط هنوز نمی‌دونم چی.
+  <div class="container">
+    <h1>رمز عبور را وارد کن</h1>
+    <input id="passwordInput" placeholder="رمز چیست؟" type="text">
+    <br>
+    <button onclick="checkPassword()">ورود</button>
+    <div id="message"></div>
   </div>
 
+  <audio id="unlockSound" src="https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3"></audio>
+  <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-click-error-1110.mp3"></audio>
+
+  <script>
+    function checkPassword() {
+      const pass = document.getElementById('passwordInput').value.trim();
+      const unlockSound = document.getElementById('unlockSound');
+      const errorSound = document.getElementById('errorSound');
+      const message = document.getElementById('message');
+
+      if (pass === "شک و تردید") {
+        unlockSound.play();
+        message.style.color = "lightgreen";
+        message.textContent = "دسترسی تأیید شد...";
+        setTimeout(() => {
+          window.location.href = "journal.html";
+        }, 2000);
+      } else {
+        errorSound.play();
+        message.style.color = "#f88";
+        message.textContent = "رمز اشتباه است.";
+      }
+    }
+  </script>
 </body>
 </html>
-
-Imgur (https://i.imgur.com/yGFwB6F.jpg)
-Imgur: The magic of the Internet
-Imgur is the easiest way to discover and enjoy the magic of the Internet. It’s where you’ll find the funniest, most informative and inspiring images, memes, GIFs, and visual stories served up in an endless stream of bite-sized fun. Powered by a passionate community of people from all around the world, anyone can join to share cool stuff and vote the best to the top. You’ll always find something on Imgur to make you smile and brighten your day.
