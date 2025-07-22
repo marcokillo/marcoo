@@ -54,7 +54,7 @@
 <body>
 
   <!-- موسیقی رازآلود -->
-  <audio id="bgMusic" src="https://dc.vmusic.ir/2025/02/Songs%20To%20Your%20Eyes%20-%20Dark%20Web%20(2025-02-10)/128k/10)%20Songs%20To%20Your%20Eyes%20-%20Good%20Mourning.mp3" autoplay loop></audio>
+  <audio id="bgMusic" src="https://dc.vmusic.ir/2025/02/Songs%20To%20Your%20Eyes%20-%20Dark%20Web%20(2025-02-10)/128k/10)%20Songs%20To%20Your%20Eyes%20-%20Good%20Mourning.mp3" autoplay loop muted></audio>
 
   <!-- دکمه قطع/وصل موسیقی -->
   <button class="mute-btn" onclick="toggleMute()">🔈 قطع/وصل موسیقی</button>
@@ -112,7 +112,10 @@
     }
 
     window.onload = () => {
-      document.getElementById("bgMusic").volume = 0.3;
+  const audio = document.getElementById("bgMusic");
+  audio.muted = false; // حالا صدای موسیقی رو روشن می‌کنه
+  audio.volume = 0.3;
+      
       typeLine();
     };
   </script>
