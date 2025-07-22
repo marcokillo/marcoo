@@ -2,77 +2,100 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>ورود به دفتر خاطرات</title>
+  <title>ورود محرمانه</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(to bottom, #111 0%, #222 100%);
+      background: url('https://i.imgur.com/I4nG1OU.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cinzel', serif;
       color: #fff;
-      font-family: 'Vazir', sans-serif;
-      text-align: center;
-      padding-top: 150px;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       direction: rtl;
     }
 
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 50px;
+      border-radius: 12px;
+      box-shadow: 0 0 30px #000;
+      text-align: center;
+      max-width: 500px;
+    }
+
     h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #f5e9c9;
+      text-shadow: 0 0 5px #222;
     }
 
     input {
-      padding: 12px;
-      font-size: 18px;
-      width: 250px;
-      border: 2px solid #888;
-      background-color: #111;
-      color: white;
-      border-radius: 6px;
+      width: 80%;
+      padding: 15px;
+      font-size: 20px;
+      background: #222;
+      border: none;
+      color: #fff;
+      border-bottom: 2px solid #888;
       text-align: center;
     }
 
     button {
       margin-top: 20px;
-      padding: 10px 25px;
+      padding: 10px 30px;
       font-size: 18px;
-      background-color: #444;
-      color: white;
+      background-color: #c29f6c;
+      color: black;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
+      border-radius: 4px;
     }
 
     #message {
-      margin-top: 25px;
-      font-size: 20px;
-      color: red;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #f88;
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>رمز عبور را وارد کن</h1>
+    <input id="passwordInput" placeholder="رمز چیست؟" type="text">
+    <br>
+    <button onclick="checkPassword()">ورود</button>
+    <div id="message"></div>
+  </div>
 
-  <h1>🔐 رمز عبور را وارد کن</h1>
-  <input type="text" id="passwordInput" placeholder="رمز عبور...">
-  <br>
-  <button onclick="checkPassword()">تأیید</button>
-  <div id="message"></div>
+  <audio id="unlockSound" src="https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3"></audio>
+  <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-click-error-1110.mp3"></audio>
 
   <script>
     function checkPassword() {
       const pass = document.getElementById('passwordInput').value.trim();
+      const unlockSound = document.getElementById('unlockSound');
+      const errorSound = document.getElementById('errorSound');
       const message = document.getElementById('message');
 
       if (pass === "شک و تردید") {
-        const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3");
-        audio.play();
+        unlockSound.play();
         message.style.color = "lightgreen";
-        message.textContent = "✅ رمز صحیح بود، ورود...";
+        message.textContent = "دسترسی تأیید شد...";
         setTimeout(() => {
           window.location.href = "journal.html";
         }, 2000);
       } else {
-        message.textContent = "❌ رمز اشتباه است.";
+        errorSound.play();
+        message.style.color = "#f88";
+        message.textContent = "رمز اشتباه است.";
       }
     }
   </script>
-
 </body>
 </html>
