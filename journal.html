@@ -1,73 +1,89 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>دفترچه الکساندرا</title>
+  <title>دفتر خاطرات</title>
   <style>
-    @font-face {
-      font-family: 'IranNastaliq';
-      src: url('https://cdn.fontcdn.ir/Font/Persian/IranNastaliq/IranNastaliq.woff2') format('woff2');
-    }
-
     body {
-      background: url('https://i.imgur.com/t7i7Qrp.jpg') no-repeat center center fixed;
-      background-size: cover;
       margin: 0;
       padding: 0;
-      direction: rtl;
-      color: #f1e9d2;
+      background-image: url('https://phoo.ir/wp-content/uploads/edd/2021/05/6040-3780x4369-phoo.ir_.jpg');
+      background-size: cover;
+      background-position: center;
       font-family: 'IranNastaliq', serif;
+      color: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+      direction: rtl;
     }
 
-    #journal-box {
-      max-width: 800px;
-      height: 600px;
-      margin: 80px auto;
-      background: rgba(20, 20, 20, 0.85);
-      padding: 30px 40px;
-      border-radius: 16px;
-      overflow-y: auto;
-      box-shadow: 0 0 50px black;
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      width: 100%;
+      height: 100%;
+      padding: 60px;
+      box-sizing: border-box;
+      overflow-y: scroll;
+    }
+
+    #text {
       font-size: 22px;
       line-height: 2.2;
-      white-space: pre-line;
-      text-align: justify;
-      position: relative;
+      white-space: pre-wrap;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     }
 
-    #title {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 28px;
-      color: #ffe8aa;
-      text-shadow: 0 0 10px #000;
+    .mute-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 1px solid #aaa;
+      padding: 8px 12px;
+      border-radius: 5px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .mute-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
     }
   </style>
 </head>
 <body>
 
-  <div id="journal-box">
-    <div id="title">۲ اکتبر ۲۰۰۰</div>
-    <div id="journal-text"></div>
+  <!-- موسیقی رازآلود -->
+  <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-dark-countdown-2873.mp3" autoplay loop></audio>
+
+  <!-- دکمه قطع/وصل موسیقی -->
+  <button class="mute-btn" onclick="toggleMute()">🔈 قطع/وصل موسیقی</button>
+
+  <!-- متن دفتر در لایه تیره روی تصویر -->
+  <div class="overlay">
+    <div id="text"></div>
   </div>
 
-  <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-typewriter-soft-hit-1121.mp3"></audio>
-
   <script>
-    const text = `امروز حس عجیبی دارم…
+    const content = `۲ اکتبر ۲۰۰۰
+
+امروز حس عجیبی دارم…
 اون‌قدر عجیب که از صبح چند بار خواستم چیزی توی دفتر ننویسم.
 اما سکوت بدتره. همیشه بدتره.
 نمی‌دونم چرا… اما حس می‌کنم نباید اون کار رو می‌کردم.
+
 ولی وقتی سباستین اومد، نگاهش، صداش، درماندگی‌اش…
 انگار یه چیزی توی دلم شکست.
 گفت همه سرمایه‌ش رو تو قمار از دست داده.
 همه چیز.
 و فقط از من کمک خواست. نه منت، نه خواهش، فقط یک جمله:
 «می‌تونی نجاتم بدی؟»
+
 نمی‌دونم از روی ترحم بود، یا احساس مسئولیت.
 اما هر چی که بود…
 اون چک لعنتی امضا شد.
 ۷۵ هزار دلار.
+
 دستم لرزید، اما امضا رو زدم.
 الان… فقط یه حس درونمه که آرومم نمی‌ذاره.
 نه برای پول… برای استیو.
@@ -76,30 +92,34 @@
 نه از دعوا.
 از شکستن اعتمادش.
 از اون نگاه خاصی که همیشه موقع ناامیدی می‌زنه.
+
 نمی‌دونم… شاید فقط دارم زیادی فکر می‌کنم.
 اما چیزی توی این ماجرا درست نیست.
 انگار یه چیزی قراره خراب بشه.
-فقط هنوز نمی‌دونم چی.`;
+فقط هنوز نمی‌دونم چی.
+`;
 
-    const target = document.getElementById("journal-text");
-    const audio = document.getElementById("typeSound");
-
-    let i = 0;
+    let index = 0;
+    const speed = 40;
 
     function typeLine() {
-      if (i < text.length) {
-        target.innerHTML += text[i];
-        audio.currentTime = 0;
-        audio.play();
-        i++;
-        setTimeout(typeLine, 65);
+      if (index < content.length) {
+        document.getElementById("text").innerHTML += content.charAt(index);
+        index++;
+        setTimeout(typeLine, speed);
       }
     }
 
-   window.onload = () => {
-  document.getElementById("bgMusic").volume = 0.3;
-  typeLine();
-}; 
+    function toggleMute() {
+      const audio = document.getElementById("bgMusic");
+      audio.muted = !audio.muted;
+    }
+
+    window.onload = () => {
+      document.getElementById("bgMusic").volume = 0.3;
+      typeLine();
+    };
+  </script>
 
 </body>
 </html>
