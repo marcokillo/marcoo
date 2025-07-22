@@ -2,100 +2,105 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>ورود محرمانه</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+  <title>دفترچه الکساندرا</title>
   <style>
+    @font-face {
+      font-family: 'IranNastaliq';
+      src: url('https://cdn.fontcdn.ir/Font/Persian/IranNastaliq/IranNastaliq.woff2') format('woff2');
+    }
+
     body {
-      background: url('https://i.imgur.com/I4nG1OU.jpg') no-repeat center center fixed;
+     <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-dark-countdown-2873.mp3" autoplay loop></audio>
+      background: url('https://i.imgur.com/t7i7Qrp.jpg') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
       padding: 0;
-      font-family: 'Cinzel', serif;
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       direction: rtl;
+      color: #f1e9d2;
+      font-family: 'IranNastaliq', serif;
     }
 
-    .container {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 50px;
-      border-radius: 12px;
-      box-shadow: 0 0 30px #000;
+    #journal-box {
+      max-width: 800px;
+      height: 600px;
+      margin: 80px auto;
+      background: rgba(20, 20, 20, 0.85);
+      padding: 30px 40px;
+      border-radius: 16px;
+      overflow-y: auto;
+      box-shadow: 0 0 50px black;
+      font-size: 22px;
+      line-height: 2.2;
+      white-space: pre-line;
+      text-align: justify;
+      position: relative;
+    }
+
+    #title {
       text-align: center;
-      max-width: 500px;
-    }
-
-    h1 {
-      font-size: 32px;
-      margin-bottom: 25px;
-      color: #f5e9c9;
-      text-shadow: 0 0 5px #222;
-    }
-
-    input {
-      width: 80%;
-      padding: 15px;
-      font-size: 20px;
-      background: #222;
-      border: none;
-      color: #fff;
-      border-bottom: 2px solid #888;
-      text-align: center;
-    }
-
-    button {
-      margin-top: 20px;
-      padding: 10px 30px;
-      font-size: 18px;
-      background-color: #c29f6c;
-      color: black;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    #message {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #f88;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: #ffe8aa;
+      text-shadow: 0 0 10px #000;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>رمز عبور را وارد کن</h1>
-    <input id="passwordInput" placeholder="رمز چیست؟" type="text">
-    <br>
-    <button onclick="checkPassword()">ورود</button>
-    <div id="message"></div>
+
+  <div id="journal-box">
+    <div id="title">۲ اکتبر ۲۰۰۰</div>
+    <div id="journal-text"></div>
   </div>
 
-  <audio id="unlockSound" src="https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3"></audio>
-  <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-click-error-1110.mp3"></audio>
+  <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-typewriter-soft-hit-1121.mp3"></audio>
 
   <script>
-    function checkPassword() {
-      const pass = document.getElementById('passwordInput').value.trim();
-      const unlockSound = document.getElementById('unlockSound');
-      const errorSound = document.getElementById('errorSound');
-      const message = document.getElementById('message');
+    const text = `امروز حس عجیبی دارم…
+اون‌قدر عجیب که از صبح چند بار خواستم چیزی توی دفتر ننویسم.
+اما سکوت بدتره. همیشه بدتره.
+نمی‌دونم چرا… اما حس می‌کنم نباید اون کار رو می‌کردم.
+ولی وقتی سباستین اومد، نگاهش، صداش، درماندگی‌اش…
+انگار یه چیزی توی دلم شکست.
+گفت همه سرمایه‌ش رو تو قمار از دست داده.
+همه چیز.
+و فقط از من کمک خواست. نه منت، نه خواهش، فقط یک جمله:
+«می‌تونی نجاتم بدی؟»
+نمی‌دونم از روی ترحم بود، یا احساس مسئولیت.
+اما هر چی که بود…
+اون چک لعنتی امضا شد.
+۷۵ هزار دلار.
+دستم لرزید، اما امضا رو زدم.
+الان… فقط یه حس درونمه که آرومم نمی‌ذاره.
+نه برای پول… برای استیو.
+اگه بفهمه من بدون مشورت باهاش، اینکارو کردم...
+می‌ترسم.
+نه از دعوا.
+از شکستن اعتمادش.
+از اون نگاه خاصی که همیشه موقع ناامیدی می‌زنه.
+نمی‌دونم… شاید فقط دارم زیادی فکر می‌کنم.
+اما چیزی توی این ماجرا درست نیست.
+انگار یه چیزی قراره خراب بشه.
+فقط هنوز نمی‌دونم چی.`;
 
-      if (pass === "شک و تردید") {
-        unlockSound.play();
-        message.style.color = "lightgreen";
-        message.textContent = "دسترسی تأیید شد...";
-        setTimeout(() => {
-          window.location.href = "journal.html";
-        }, 2000);
-      } else {
-        errorSound.play();
-        message.style.color = "#f88";
-        message.textContent = "رمز اشتباه است.";
+    const target = document.getElementById("journal-text");
+    const audio = document.getElementById("typeSound");
+
+    let i = 0;
+
+    function typeLine() {
+      if (i < text.length) {
+        target.innerHTML += text[i];
+        audio.currentTime = 0;
+        audio.play();
+        i++;
+        setTimeout(typeLine, 65);
       }
     }
-  </script>
+
+   window.onload = () => {
+  document.getElementById("bgMusic").volume = 0.3;
+  typeLine();
+}; 
+
 </body>
 </html>
