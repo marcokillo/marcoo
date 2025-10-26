@@ -5,35 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>سیاهچاله</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Vazir', 'Georgia', serif;
-            background: #0a0500;
+            background: linear-gradient(135deg, #000000 0%, #2c1810 50%, #3c2f2f 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            /* حذف کامل شطرنجی */
-            background-image: 
-                radial-gradient(circle at center, #1a0f00 0%, #0a0500 100%);
-            color: #f5e6c7;
+            color: #d9d9d9;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* CRT + نویز ملایم */
+        /* افکت ستاره‌های فضایی - ساده‌تر */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #ccc, transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 90px 40px, #aaa, transparent);
+            background-repeat: repeat;
+            background-size: 150px 100px;
+            animation: starsTwinkle 25s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        @keyframes starsTwinkle {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-50px); }
+        }
+
+        /* CRT + نویز ملایم - کم‌رنگ‌تر */
         .crt-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
             z-index: 99999;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.07), rgba(0,0,0,0.07) 1px, transparent 1px, transparent 2px);
-            opacity: 0.35;
-            animation: scanline 15s linear infinite;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.03), rgba(0,0,0,0.03) 1px, transparent 1px, transparent 2px);
+            opacity: 0.2;
+            animation: scanline 12s linear infinite;
         }
 
         @keyframes scanline {
@@ -46,190 +67,170 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
-            opacity: 0.02;
+            opacity: 0.005;
             z-index: 99998;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+            animation: noiseMove 0.3s infinite;
+        }
+
+        @keyframes noiseMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2px, 2px); }
         }
 
         .container {
             width: 100%;
-            max-width: 780px;
+            max-width: 800px;
             text-align: center;
             z-index: 10;
             position: relative;
+            animation: fadeInUp 1s ease-out;
         }
 
-        /* عنوان مجلل */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* عنوان مجلل - ساده‌تر */
         h1 {
-            font-size: clamp(3rem, 10vw, 6rem);
-            color: #ffd700;
-            font-weight: 900;
-            letter-spacing: 14px;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #a8a8a8;
+            font-weight: 700;
+            letter-spacing: 10px;
             text-transform: uppercase;
             text-shadow: 
-                0 0 15px #d4af37,
-                0 0 30px #d4af37,
-                0 0 50px #8b4513,
-                3px 3px 0 #000,
-                6px 6px 0 rgba(0,0,0,0.6);
+                0 0 15px #5c4a3a,
+                0 0 30px #3c2f2f,
+                0 0 45px #000000,
+                2px 2px 0 #000;
             margin-bottom: 50px;
-            filter: sepia(0.3) contrast(1.15);
+            filter: contrast(1.1) brightness(1.05);
             position: relative;
-            animation: titleGlow 3s ease-in-out infinite;
+            animation: titlePulse 5s ease-in-out infinite;
         }
 
-        @keyframes titleGlow {
-            0%, 100% { text-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37, 0 0 50px #8b4513, 3px 3px 0 #000; }
-            50% { text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700, 0 0 60px #d4af37, 3px 3px 0 #000; }
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 15px #5c4a3a, 0 0 30px #3c2f2f, 0 0 45px #000000, 2px 2px 0 #000; }
+            50% { text-shadow: 0 0 25px #a8a8a8, 0 0 40px #a8a8a8, 0 0 55px #5c4a3a, 2px 2px 0 #000; }
         }
 
-        /* باکس مجلل — چندلایه + نقش و نگار */
+        /* باکس مجلل — ساده */
         .question-box {
-            background: linear-gradient(135deg, #1a1205 0%, #2b1e0a 100%);
-            border: 8px solid #d4af37;
-            padding: 60px 45px;
+            background: #2c1810;
+            border: 2px solid #3c2f2f;
+            padding: 50px 40px;
             position: relative;
             box-shadow: 
-                0 0 40px rgba(212,175,55,0.5),
-                inset 0 0 50px rgba(212,175,55,0.12),
-                15px 15px 0 rgba(0,0,0,0.9),
-                0 0 0 3px #8b4513 inset,
-                0 0 0 6px #d4af37 inset;
-            border-radius: 12px;
+                0 0 30px rgba(60,47,47,0.4),
+                inset 0 0 30px rgba(60,47,47,0.2),
+                10px 10px 0 rgba(0,0,0,0.8);
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
         }
 
+        .question-box:hover {
+            box-shadow: 
+                0 0 40px rgba(60,47,47,0.6),
+                inset 0 0 30px rgba(60,47,47,0.25);
+            transform: translateY(-3px);
+        }
 
-/* لایه داخلی طلایی حکاکی شده */
+        /* لایه داخلی ساده */
         .question-box::before {
             content: '';
             position: absolute;
-            top: 12px; left: 12px; right: 12px; bottom: 12px;
-            border: 2px solid #ffd700;
-            background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(212,175,55,0.08) 8px, rgba(212,175,55,0.08) 16px),
-                        repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(212,175,55,0.08) 8px, rgba(212,175,55,0.08) 16px);
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid #5c4a3a;
             pointer-events: none;
             z-index: 1;
             border-radius: 8px;
+            opacity: 0.5;
         }
 
-        /* قاب خارجی فلزی براق */
-        .luxury-frame {
-            position: absolute;
-            top: -12px; left: -12px; right: -12px; bottom: -12px;
-            border: 4px solid #d4af37;
-            border-image: linear-gradient(45deg, #d4af37, #ffd700, #d4af37, #8b4513) 1;
-            pointer-events: none;
-            z-index: 2;
-            box-shadow: 0 0 25px rgba(0,0,0,0.7);
-            border-radius: 16px;
-        }
+        /* بدون قاب و گوشه‌های تزئینی - ساده */
 
-        /* گوشه‌های تزئینی آرت دکو */
-        .deco-corner {
-            position: absolute;
-            width: 50px; height: 50px;
-            background: #d4af37;
-            border: 4px solid #8b4513;
-            z-index: 3;
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20% 50%);
-            box-shadow: 0 0 15px rgba(0,0,0,0.6);
-        }
-        .deco-corner.tl { top: -14px; left: -14px; transform: rotate(0deg); }
-        .deco-corner.tr { top: -14px; right: -14px; transform: rotate(90deg); }
-        .deco-corner.bl { bottom: -14px; left: -14px; transform: rotate(-90deg); }
-        .deco-corner.br { bottom: -14px; right: -14px; transform: rotate(180deg); }
-
-        /* نقش و نگار داخلی — حکاکی طلایی */
-        .engraving {
-            position: absolute;
-            width: 100%; height: 100%;
-            top: 0; left: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(255,215,0,0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255,215,0,0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(212,175,55,0.1) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.6;
-        }
+        /* بدون engraving - ساده */
 
         .question-text {
-            font-size: clamp(1.2rem, 3.8vw, 1.75rem);
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
             line-height: 2.2;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-            color: #fff8e1;
+            margin-bottom: 35px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            color: #e0e0e0;
             position: relative;
             z-index: 5;
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            animation: textFadeIn 1.2s ease-out;
+        }
+
+        @keyframes textFadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .answer-input {
             width: 100%;
-            padding: 22px 28px;
-            font-size: clamp(1.1rem, 3.2vw, 1.5rem);
-            background: linear-gradient(135deg, #0f0a00, #1a1205);
-            border: 3px solid #8b4513;
-            color: #ffd700;
+            padding: 20px 25px;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            background: #1a0f00;
+            border: 2px solid #3c2f2f;
+            color: #ffffff;
             text-align: center;
             border-radius: 8px;
             outline: none;
             margin-bottom: 30px;
             box-shadow: 
-                inset 0 4px 12px rgba(0,0,0,0.9),
-                0 0 20px rgba(139,69,19,0.4),
-                0 0 0 2px #d4af37 inset;
-            transition: all 0.4s ease;
-            font-family: 'Georgia', serif;
-            letter-spacing: 2px;
+                inset 0 3px 10px rgba(0,0,0,0.8),
+                0 0 15px rgba(60,47,47,0.3);
+            transition: all 0.3s ease;
+            font-family: 'Vazir', serif;
+            letter-spacing: 1px;
         }
 
         .answer-input:focus {
-            border-color: #ffd700;
+            border-color: #5c4a3a;
             box-shadow: 
-                inset 0 4px 12px rgba(0,0,0,0.9),
-                0 0 30px rgba(255,215,0,0.7),
-                0 0 50px rgba(255,215,0,0.4),
-                0 0 0 3px #d4af37 inset;
-            transform: scale(1.02);
-            background: linear-gradient(135deg, #1a1205, #2b1e0a);
+                inset 0 3px 10px rgba(0,0,0,0.8),
+                0 0 25px rgba(92,74,58,0.6),
+                0 0 35px rgba(92,74,58,0.4);
+            transform: scale(1.01);
+            background: #22150a;
         }
 
         .answer-input::placeholder {
-            color: #d4af37;
+            color: #8c7a6a;
             font-style: italic;
-            opacity: 0.8;
+            opacity: 0.7;
         }
-
 
         .submit-btn {
             display: block;
-            width: 88%;
+            width: 90%;
             max-width: 350px;
             margin: 0 auto;
-            padding: 22px;
-            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #b8860b 0%, #ffd700 48%, #b8860b 100%);
-            background-size: 200% 100%;
-            border: 5px solid #d4af37;
-            color: #000;
+            padding: 20px;
+            font-size: clamp(1.3rem, 4vw, 1.7rem);
+            font-weight: 600;
+            background: linear-gradient(135deg, #3c2f2f 0%, #5c4a3a 100%);
+            border: 2px solid #3c2f2f;
+            color: #ffffff;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 8px;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             box-shadow: 
-                0 7px 0 #8b4513,
-                0 12px 30px rgba(0,0,0,0.7),
-                inset 0 2px 0 rgba(255,255,255,0.4),
-                0 0 30px rgba(255,215,0,0.3);
-            transition: all 0.4s ease;
+                0 5px 0 #2c1810,
+                0 10px 20px rgba(0,0,0,0.7),
+                0 0 20px rgba(60,47,47,0.3);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
             z-index: 5;
+            font-family: 'Vazir', serif;
         }
 
         .submit-btn::before {
@@ -237,8 +238,8 @@
             position: absolute;
             top: 0; left: -100%;
             width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-            transition: left 0.7s ease;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
         }
 
         .submit-btn:hover::before {
@@ -246,68 +247,58 @@
         }
 
         .submit-btn:hover {
-            background-position: 100% 0;
             transform: translateY(-4px);
             box-shadow: 
-                0 10px 0 #8b4513,
-                0 18px 40px rgba(0,0,0,0.8),
-                0 0 40px rgba(255,215,0,0.5);
+                0 8px 0 #2c1810,
+                0 15px 30px rgba(0,0,0,0.8),
+                0 0 30px rgba(60,47,47,0.5);
         }
 
         .submit-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 3px 0 #8b4513, 0 6px 15px rgba(0,0,0,0.6);
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #2c1810, 0 5px 10px rgba(0,0,0,0.6);
         }
 
-        /* پیام خطا لوکس */
+        /* پیام خطا - ساده */
         .error-message {
             position: fixed;
-            bottom: 25px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #8b0000, #a52a2a);
-            color: #fff;
-            padding: 20px 40px;
-            border: 4px solid #ff4444;
-            font-size: 1.15rem;
+            background: linear-gradient(135deg, #4a1c00, #6b2800);
+            color: #ffddcc;
+            padding: 20px 35px;
+            border: 2px solid #8b3a00;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 8px;
             box-shadow: 
-                0 0 35px rgba(255,68,68,0.6),
-                10px 10px 0 rgba(0,0,0,0.8),
-                inset 0 0 20px rgba(255,255,255,0.1);
+                0 0 30px rgba(139,58,0,0.6),
+                8px 8px 0 rgba(0,0,0,0.8),
+                inset 0 0 15px rgba(255,255,255,0.1);
             z-index: 100000;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             opacity: 0;
-            transition: all 0.5s ease;
-            font-family: 'Georgia', serif;
+            transition: all 0.4s ease;
+            font-family: 'Vazir', serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .error-message.show {
             opacity: 1;
-            bottom: 40px;
-            animation: errorLux 0.7s ease;
+            bottom: 45px;
         }
 
-        @keyframes errorLux {
-            0%, 100% { transform: translateX(-50%) rotate(0); }
-            20% { transform: translateX(-50%) rotate(-2deg); }
-            40% { transform: translateX(-50%) rotate(2deg); }
-            60% { transform: translateX(-50%) rotate(-1deg); }
-            80% { transform: translateX(-50%) rotate(1deg); }
-        }
-
-        /* مودال مجلل */
+        /* مودال مجلل - ساده */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(0,0,0,0.98);
+            background: rgba(0,0,0,0.92);
             z-index: 200000;
             justify-content: center;
             align-items: center;
@@ -316,112 +307,153 @@
 
         .modal-overlay.active {
             display: flex;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
-            background: linear-gradient(135deg, #1a1205, #2b1e0a);
-            border: 8px solid #d4af37;
-            padding: 55px 40px;
-            max-width: 90%;
-            width: 720px;
-            max-height: 90vh;
+            background: #2c1810;
+            border: 2px solid #3c2f2f;
+            padding: 50px 40px;
+            max-width: 95%;
+            width: 700px;
+            max-height: 85vh;
             overflow-y: auto;
-            border-radius: 14px;
+            border-radius: 10px;
             box-shadow: 
-                0 0 60px rgba(212,175,55,0.7),
-                inset 0 0 50px rgba(212,175,55,0.15),
-                18px 18px 0 rgba(0,0,0,0.9);
+                0 0 50px rgba(60,47,47,0.5),
+                inset 0 0 30px rgba(60,47,47,0.2),
+                15px 15px 0 rgba(0,0,0,0.9);
             position: relative;
             text-align: center;
+            animation: modalSlideIn 0.4s ease-out;
         }
 
-.modal-content::before {
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-content::before {
             content: '';
             position: absolute;
-            top: 18px; left: 18px; right: 18px; bottom: 18px;
-            border: 3px double #ffd700;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid #5c4a3a;
             pointer-events: none;
-            border-radius: 10px;
+            border-radius: 8px;
+            opacity: 0.4;
         }
 
         .modal-image-wrapper {
-            margin-bottom: 35px;
-            border: 6px solid #d4af37;
+            margin-bottom: 30px;
+            border: 2px solid #3c2f2f;
             overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.9);
             cursor: zoom-in;
-            transition: transform 0.4s;
+            transition: all 0.3s ease;
             max-width: 100%;
             display: block;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+        }
+
+        .modal-image-wrapper::after {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 8px; right: 8px;
+            color: #a8a8a8;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-image-wrapper:hover::after {
+            opacity: 1;
         }
 
         .modal-image-wrapper:hover {
             transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(60,47,47,0.4);
         }
 
         .modal-image {
             width: 100%;
             height: auto;
-            filter: sepia(0.75) contrast(1.25) brightness(0.85);
-            transition: filter 0.4s;
+            filter: sepia(0.5) contrast(1.2) brightness(0.95);
+            transition: filter 0.3s ease;
             display: block;
         }
 
         .modal-image-wrapper:hover .modal-image {
-            filter: sepia(0.5) contrast(1.35) brightness(1);
+            filter: sepia(0.3) contrast(1.3) brightness(1.05);
         }
 
         .modal-image-wrapper.zoomed {
-            transform: scale(1.9) !important;
+            transform: scale(1.8) !important;
             z-index: 200001;
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1.9);
+            transform: translate(-50%, -50%) scale(1.8);
             width: auto;
             height: auto;
-            max-width: 90vw;
-            max-height: 90vh;
+            max-width: 85vw;
+            max-height: 85vh;
+            border: 1px solid #3c2f2f;
         }
 
         .modal-text {
-            font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
             line-height: 2.2;
-            margin-bottom: 20px; /* کاهش فاصله پایین متن */
-            color: #fff8e1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-            font-weight: 700;
-            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+            color: #e0e0e0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            font-weight: 500;
+            letter-spacing: 1px;
+            animation: textFadeIn 1.2s ease-out 0.1s both;
         }
 
-        /* باکس کلید — بالاتر و نزدیک‌تر */
+        /* باکس کلید - فلش سمت راست */
         .key-selector-container {
-            margin-top: -10px; /* بالا آوردن باکس کلید */
-            margin-bottom: 35px;
+            margin-top: -5px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
         .key-select {
             width: 100%;
-            padding: 20px;
-            font-size: 1.45rem;
-            background: linear-gradient(135deg, #0f0a00, #1a1205);
-            border: 4px solid #8b4513;
-            color: #b2910c;
+            padding: 20px 35px 20px 20px; /* padding سمت راست بیشتر */
+            font-size: 1.4rem;
+            background: #1a0f00;
+            border: 2px solid #3c2f2f;
+            color: #d9d9d9;
             border-radius: 8px;
             cursor: pointer;
-            box-shadow: inset 0 4px 12px rgba(0,0,0,0.8), 0 0 0 2px #d4af37 inset;
-            font-family: 'Georgia', serif;
-            transition: all 0.4s ease;
+            box-shadow: inset 0 3px 10px rgba(0,0,0,0.8), 0 0 0 1px #5c4a3a inset;
+            font-family: 'Vazir', serif;
+            transition: all 0.3s ease;
             max-width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%238c7a6a' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+            background-position: left 15px center;
+            background-repeat: no-repeat;
+            background-size: 14px;
+            direction: rtl;
+            text-align: right;
         }
 
         .key-select:focus {
-            border-color: #978835;
+            border-color: #5c4a3a;
             outline: none;
-            box-shadow: 0 0 30px rgba(255,215,0,0.6), 0 0 0 3px #d4af37 inset;
+            box-shadow: 0 0 25px rgba(92,74,58,0.5), 0 0 0 2px #3c2f2f inset;
             transform: scale(1.01);
         }
 
@@ -430,71 +462,72 @@
             max-width: 320px;
             margin: 0 auto;
             padding: 20px;
-            font-size: 1.35rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #b8860b 0%, #ffd700 48%, #b8860b 100%);
-            border: 5px solid #d4af37;
-            color: #000;
+            font-size: 1.3rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3c2f2f 0%, #5c4a3a 100%);
+            border: 2px solid #3c2f2f;
+            color: #ffffff;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 8px;
             text-transform: uppercase;
-            letter-spacing: 3.5px;
-            box-shadow: 0 7px 0 #8b4513, 0 12px 30px rgba(0,0,0,0.7);
-            transition: all 0.4s;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 0 #2c1810, 0 10px 20px rgba(0,0,0,0.7);
+            transition: all 0.3s ease;
+            font-family: 'Vazir', serif;
         }
 
         .modal-submit-btn:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 0 #8b4513, 0 18px 40px rgba(0,0,0,0.8);
+            box-shadow: 0 8px 0 #2c1810, 0 15px 30px rgba(0,0,0,0.8), 0 0 25px rgba(60,47,47,0.4);
         }
 
         .modal-submit-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 3px 0 #8b4513;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #2c1810, 0 5px 10px rgba(0,0,0,0.6);
         }
 
         .final-message {
-            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(26,18,5,0.9));
-            padding: 35px;
-            border: 3px double #d4af37;
-            border-radius: 10px;
+            background: #1a0f00;
+            padding: 30px;
+            border: 2px solid #3c2f2f;
+            border-radius: 8px;
             margin: 30px 0;
-            font-size: clamp(1.1rem, 3.2vw, 1.5rem);
-            line-height: 2.4;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            line-height: 2.3;
             text-align: justify;
-            color: #fff8e1;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            color: #e0e0e0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.9);
             position: relative;
+            animation: textFadeIn 1.2s ease-out;
         }
 
         .final-message::before {
             content: '';
             position: absolute;
             top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 1px dashed rgba(212,175,55,0.4);
-            border-radius: 8px;
+            border: 1px dashed rgba(92,74,58,0.4);
+            border-radius: 6px;
         }
 
-
-@media (max-width: 480px) {
-            body { padding: 10px; }
-            .question-box, .modal-content { padding: 30px 20px; }
-            .submit-btn, .modal-submit-btn { width: 95%; padding: 18px; font-size: 1.1rem; letter-spacing: 2px; }
-            h1 { letter-spacing: 6px; margin-bottom: 30px; font-size: clamp(2.5rem, 8vw, 4rem); }
-            .deco-corner { width: 30px; height: 30px; }
-            .key-selector-container { margin-top: -5px; margin-bottom: 20px; }
-            .answer-input { padding: 18px 20px; font-size: 1.2rem; margin-bottom: 20px; }
-            .question-text { margin-bottom: 25px; font-size: 1.1rem; line-height: 1.8; }
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .question-box, .modal-content { padding: 35px 25px; }
+            .submit-btn, .modal-submit-btn { width: 96%; padding: 18px; font-size: 1.2rem; letter-spacing: 1.5px; }
+            h1 { letter-spacing: 6px; margin-bottom: 35px; font-size: clamp(2rem, 7vw, 3.5rem); }
+            .key-selector-container { margin-bottom: 25px; }
+            .answer-input { padding: 18px 20px; font-size: 1.3rem; margin-bottom: 25px; }
+            .question-text { margin-bottom: 25px; font-size: 1.2rem; line-height: 1.8; }
             .modal-image-wrapper { margin-bottom: 20px; }
-            .modal-text { margin-bottom: 15px; font-size: 1.1rem; line-height: 1.8; }
-            .error-message { padding: 15px 25px; font-size: 1rem; width: 90%; left: 5%; transform: none; }
-            .final-message { padding: 25px; font-size: 1rem; line-height: 1.8; margin: 20px 0; }
+            .modal-text { margin-bottom: 20px; font-size: 1.2rem; line-height: 1.8; }
+            .error-message { padding: 15px 25px; font-size: 1rem; width: 92%; left: 4%; transform: none; }
+            .final-message { padding: 25px; font-size: 1.1rem; line-height: 1.8; margin: 20px 0; }
+            .key-select { padding: 18px 30px 18px 18px; font-size: 1.2rem; background-position: left 12px center; }
         }
 
-@media (max-width: 768px) {
-            .container { max-width: 95%; }
-            .question-box { padding: 45px 30px; }
-            .modal-content { padding: 40px 25px; width: 95%; }
+        @media (max-width: 768px) {
+            .container { max-width: 98%; }
+            .question-box { padding: 40px 30px; }
+            .modal-content { padding: 40px 30px; width: 98%; }
         }
     </style>
 </head>
@@ -506,15 +539,9 @@
         <h1>سیاهچاله</h1>
 
         <div class="question-box">
-            <div class="luxury-frame"></div>
-            <div class="deco-corner tl"></div>
-            <div class="deco-corner tr"></div>
-            <div class="deco-corner bl"></div>
-            <div class="deco-corner br"></div>
-            <div class="engraving"></div>
 
             <p class="question-text">
-                پس از حل معما به چه کلمه ای ویا عبارتی رسیدید؟
+                پس از حل معما به چه کلمه‌ای و یا عبارتی رسیدید؟
             </p>
 
             <input type="text" class="answer-input" placeholder="رمز را وارد کنید..." autocomplete="off">
@@ -524,7 +551,7 @@
     </div>
 
     <div class="error-message">
-        <span>پاسخ نادرست! دوباره تلاش کن.</span>
+        <span><i class="fas fa-exclamation-triangle"></i> پاسخ نادرست است!دوباره تلاش کن.</span>
     </div>
 
     <!-- مودال اصلی -->
@@ -538,7 +565,7 @@
                 این کلید در راهرو با کدام کلید مطابقت دارد؟
             </p>
 
-            <!-- باکس کلید بالاتر -->
+            <!-- باکس کلید -->
             <div class="key-selector-container">
                 <select class="key-select" id="keySelect">
                     <option value="1">کلید ۱</option>
@@ -565,7 +592,9 @@
         <div class="modal-content">
             <div class="final-message">
                 منطقی به نظر می‌رسید! با این حال، تا زمانی که هر شش کلید را وارد نکنید، نمی‌توانید کلید اصلی را بچرخانید. راه‌حل خود را یادداشت می‌کنید و به اتاق‌های دیگر می‌روید.
-         
+            </div>
+           
+        </div>
     </div>
 
     <script>
@@ -633,7 +662,7 @@
         // بستن زوم تصویر با کلیک خارج
         document.addEventListener('click', function(e) {
             const wrapper = document.querySelector('.modal-image-wrapper');
-            if (wrapper.classList.contains('zoomed') && !wrapper.contains(e.target)) {
+            if (wrapper && wrapper.classList.contains('zoomed') && !wrapper.contains(e.target)) {
                 wrapper.classList.remove('zoomed');
             }
         });
