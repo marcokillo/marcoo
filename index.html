@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -303,6 +301,45 @@
             80% { transform: translateX(-50%) rotate(1deg); }
         }
 
+        /* پیام موفقیت */
+        .success-message {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #006400, #228b22);
+            color: #fff;
+            padding: 20px 40px;
+            border: 4px solid #90ee90;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 
+                0 0 35px rgba(144,238,144,0.6),
+                10px 10px 0 rgba(0,0,0,0.8),
+                inset 0 0 20px rgba(255,255,255,0.1);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.5s ease;
+            font-family: 'Georgia', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            bottom: 40px;
+            animation: successLux 0.7s ease;
+        }
+
+        @keyframes successLux {
+            0%, 100% { transform: translateX(-50%) scale(0.95); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
         /* مودال مجلل */
         .modal-overlay {
             display: none;
@@ -354,6 +391,10 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.9);
             cursor: zoom-in;
             transition: transform 0.4s;
+            max-width: 100%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .modal-image-wrapper:hover {
@@ -365,10 +406,24 @@
             height: auto;
             filter: sepia(0.75) contrast(1.25) brightness(0.85);
             transition: filter 0.4s;
+            display: block;
         }
 
         .modal-image-wrapper:hover .modal-image {
             filter: sepia(0.5) contrast(1.35) brightness(1);
+        }
+
+        .modal-image-wrapper.zoomed {
+            transform: scale(1.9) !important;
+            z-index: 200001;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.9);
+            width: auto;
+            height: auto;
+            max-width: 90vw;
+            max-height: 90vh;
         }
 
         .modal-text {
@@ -399,6 +454,7 @@
             box-shadow: inset 0 4px 12px rgba(0,0,0,0.8), 0 0 0 2px #d4af37 inset;
             font-family: 'Georgia', serif;
             transition: all 0.4s ease;
+            max-width: 100%;
         }
 
         .key-select:focus {
@@ -460,11 +516,24 @@
 
 
 @media (max-width: 480px) {
-            .question-box, .modal-content { padding: 40px 25px; }
-            .submit-btn, .modal-submit-btn { width: 94%; font-size: 1.2rem; }
-            h1 { letter-spacing: 8px; }
-            .deco-corner { width: 40px; height: 40px; }
-            .key-selector-container { margin-top: -5px; }
+            body { padding: 10px; }
+            .question-box, .modal-content { padding: 30px 20px; }
+            .submit-btn, .modal-submit-btn { width: 95%; padding: 18px; font-size: 1.1rem; letter-spacing: 2px; }
+            h1 { letter-spacing: 6px; margin-bottom: 30px; font-size: clamp(2.5rem, 8vw, 4rem); }
+            .deco-corner { width: 30px; height: 30px; }
+            .key-selector-container { margin-top: -5px; margin-bottom: 20px; }
+            .answer-input { padding: 18px 20px; font-size: 1.2rem; margin-bottom: 20px; }
+            .question-text { margin-bottom: 25px; font-size: 1.1rem; line-height: 1.8; }
+            .modal-image-wrapper { margin-bottom: 20px; }
+            .modal-text { margin-bottom: 15px; font-size: 1.1rem; line-height: 1.8; }
+            .error-message, .success-message { padding: 15px 25px; font-size: 1rem; width: 90%; left: 5%; transform: none; }
+            .final-message { padding: 25px; font-size: 1rem; line-height: 1.8; margin: 20px 0; }
+        }
+
+@media (max-width: 768px) {
+            .container { max-width: 95%; }
+            .question-box { padding: 45px 30px; }
+            .modal-content { padding: 40px 25px; width: 95%; }
         }
     </style>
 </head>
@@ -497,6 +566,10 @@
         <span>پاسخ نادرست! دوباره تلاش کن.</span>
     </div>
 
+    <div class="success-message">
+        <span>پاسخ درست است!</span>
+    </div>
+
     <!-- مودال اصلی -->
     <div class="modal-overlay" id="mainModal">
         <div class="modal-content">
@@ -526,7 +599,7 @@
                 </select>
             </div>
 
-            <button class="modal-submit-btn" id="finalSubmit">ارسال</button>
+            <!-- دکمه ارسال حذف شد -->
         </div>
     </div>
 
@@ -544,10 +617,10 @@
         const answerInput = document.querySelector('.answer-input');
         const submitBtn = document.querySelector('.submit-btn');
         const errorMsg = document.querySelector('.error-message');
+        const successMsg = document.querySelector('.success-message');
         const mainModal = document.getElementById('mainModal');
         const finalModal = document.getElementById('finalModal');
         const keySelect = document.getElementById('keySelect');
-        const finalSubmit = document.getElementById('finalSubmit');
         const closeFinal = document.getElementById('closeFinal');
 
         const CORRECT_CODE = "قلب سیاه";
@@ -558,24 +631,37 @@
             setTimeout(() => errorMsg.classList.remove('show'), 3000);
         }
 
+        function showSuccess() {
+            successMsg.classList.add('show');
+            setTimeout(() => successMsg.classList.remove('show'), 2000);
+        }
+
+        // بهبود ارسال پاسخ: case insensitive و trim
         submitBtn.addEventListener('click', () => {
-            if (answerInput.value.trim() === CORRECT_CODE) {
+            const userAnswer = answerInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
+            const correct = CORRECT_CODE.toLowerCase().replace(/\s+/g, ' ');
+            if (userAnswer === correct) {
                 mainModal.classList.add('active');
+                answerInput.value = '';
             } else {
                 showError();
                 answerInput.value = '';
             }
         });
 
-
-answerInput.addEventListener('keypress', e => {
+        answerInput.addEventListener('keypress', e => {
             if (e.key === 'Enter') submitBtn.click();
         });
 
-        finalSubmit.addEventListener('click', () => {
+        // انتخاب کلید: بدون دکمه، مستقیم روی تغییر
+        keySelect.addEventListener('change', () => {
             if (keySelect.value === CORRECT_KEY) {
-                mainModal.classList.remove('active');
-                finalModal.classList.add('active');
+                showSuccess();
+                setTimeout(() => {
+                    mainModal.classList.remove('active');
+                    finalModal.classList.add('active');
+                    keySelect.value = "1"; // ریست
+                }, 2000);
             } else {
                 showError();
             }
@@ -589,13 +675,20 @@ answerInput.addEventListener('keypress', e => {
 
         document.querySelector('.modal-image-wrapper').addEventListener('click', function() {
             this.classList.toggle('zoomed');
-            this.style.transform = this.classList.contains('zoomed') ? 'scale(1.9)' : 'scale(1)';
         });
 
         [mainModal, finalModal].forEach(modal => {
             modal.addEventListener('click', e => {
                 if (e.target === modal) modal.classList.remove('active');
             });
+        });
+
+        // بستن زوم تصویر با کلیک خارج
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.modal-image-wrapper');
+            if (wrapper.classList.contains('zoomed') && !wrapper.contains(e.target)) {
+                wrapper.classList.remove('zoomed');
+            }
         });
     </script>
 </body>
