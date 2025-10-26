@@ -1,101 +1,602 @@
+
+
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>ورود محرمانه</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-  <style>
-    body {
-  background: url('https://elishop.ir/22576-thickbox_default/10-pcs-old-manuscripts-papers-for-design.jpg');
-  background-size: cover;
-      margin: 0;
-      padding: 0;
-      font-family: 'Cinzel', serif;
-      color: #fff;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      direction: rtl;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیاهچاله</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    .container {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 50px;
-      border-radius: 12px;
-      box-shadow: 0 0 30px #000;
-      text-align: center;
-      max-width: 500px;
-    }
+        body {
+            font-family: 'Vazir', 'Georgia', serif;
+            background: #0a0500;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            /* حذف کامل شطرنجی */
+            background-image: 
+                radial-gradient(circle at center, #1a0f00 0%, #0a0500 100%);
+            color: #f5e6c7;
+            overflow-x: hidden;
+        }
 
-    h1 {
-      font-size: 32px;
-      margin-bottom: 25px;
-      color: #f5e9c9;
-      text-shadow: 0 0 5px #222;
-    }
+        /* CRT + نویز ملایم */
+        .crt-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 99999;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.07), rgba(0,0,0,0.07) 1px, transparent 1px, transparent 2px);
+            opacity: 0.35;
+            animation: scanline 15s linear infinite;
+        }
 
-    input {
-      width: 80%;
-      padding: 15px;
-      font-size: 20px;
-      background: #222;
-      border: none;
-      color: #fff;
-      border-bottom: 2px solid #888;
-      text-align: center;
-    }
+        @keyframes scanline {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 5px; }
+        }
 
-    button {
-      margin-top: 20px;
-      padding: 10px 30px;
-      font-size: 18px;
-      background-color: #c29f6c;
-      color: black;
-      border: none;
-      cursor: pointer;
-      border-radius: 4px;
-    }
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.02;
+            z-index: 99998;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
 
-    #message {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #f88;
-    }
-  </style>
+        .container {
+            width: 100%;
+            max-width: 780px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* عنوان مجلل */
+        h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            color: #ffd700;
+            font-weight: 900;
+            letter-spacing: 14px;
+            text-transform: uppercase;
+            text-shadow: 
+                0 0 15px #d4af37,
+                0 0 30px #d4af37,
+                0 0 50px #8b4513,
+                3px 3px 0 #000,
+                6px 6px 0 rgba(0,0,0,0.6);
+            margin-bottom: 50px;
+            filter: sepia(0.3) contrast(1.15);
+            position: relative;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37, 0 0 50px #8b4513, 3px 3px 0 #000; }
+            50% { text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700, 0 0 60px #d4af37, 3px 3px 0 #000; }
+        }
+
+        /* باکس مجلل — چندلایه + نقش و نگار */
+        .question-box {
+            background: linear-gradient(135deg, #1a1205 0%, #2b1e0a 100%);
+            border: 8px solid #d4af37;
+            padding: 60px 45px;
+            position: relative;
+            box-shadow: 
+                0 0 40px rgba(212,175,55,0.5),
+                inset 0 0 50px rgba(212,175,55,0.12),
+                15px 15px 0 rgba(0,0,0,0.9),
+                0 0 0 3px #8b4513 inset,
+                0 0 0 6px #d4af37 inset;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 35px;
+        }
+
+
+/* لایه داخلی طلایی حکاکی شده */
+        .question-box::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 2px solid #ffd700;
+            background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(212,175,55,0.08) 8px, rgba(212,175,55,0.08) 16px),
+                        repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(212,175,55,0.08) 8px, rgba(212,175,55,0.08) 16px);
+            pointer-events: none;
+            z-index: 1;
+            border-radius: 8px;
+        }
+
+        /* قاب خارجی فلزی براق */
+        .luxury-frame {
+            position: absolute;
+            top: -12px; left: -12px; right: -12px; bottom: -12px;
+            border: 4px solid #d4af37;
+            border-image: linear-gradient(45deg, #d4af37, #ffd700, #d4af37, #8b4513) 1;
+            pointer-events: none;
+            z-index: 2;
+            box-shadow: 0 0 25px rgba(0,0,0,0.7);
+            border-radius: 16px;
+        }
+
+        /* گوشه‌های تزئینی آرت دکو */
+        .deco-corner {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: #d4af37;
+            border: 4px solid #8b4513;
+            z-index: 3;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 20% 50%);
+            box-shadow: 0 0 15px rgba(0,0,0,0.6);
+        }
+        .deco-corner.tl { top: -14px; left: -14px; transform: rotate(0deg); }
+        .deco-corner.tr { top: -14px; right: -14px; transform: rotate(90deg); }
+        .deco-corner.bl { bottom: -14px; left: -14px; transform: rotate(-90deg); }
+        .deco-corner.br { bottom: -14px; right: -14px; transform: rotate(180deg); }
+
+        /* نقش و نگار داخلی — حکاکی طلایی */
+        .engraving {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255,215,0,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,215,0,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(212,175,55,0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .question-text {
+            font-size: clamp(1.2rem, 3.8vw, 1.75rem);
+            line-height: 2.2;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            color: #fff8e1;
+            position: relative;
+            z-index: 5;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 22px 28px;
+            font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+            background: linear-gradient(135deg, #0f0a00, #1a1205);
+            border: 3px solid #8b4513;
+            color: #ffd700;
+            text-align: center;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 30px;
+            box-shadow: 
+                inset 0 4px 12px rgba(0,0,0,0.9),
+                0 0 20px rgba(139,69,19,0.4),
+                0 0 0 2px #d4af37 inset;
+            transition: all 0.4s ease;
+            font-family: 'Georgia', serif;
+            letter-spacing: 2px;
+        }
+
+        .answer-input:focus {
+            border-color: #ffd700;
+            box-shadow: 
+                inset 0 4px 12px rgba(0,0,0,0.9),
+                0 0 30px rgba(255,215,0,0.7),
+                0 0 50px rgba(255,215,0,0.4),
+                0 0 0 3px #d4af37 inset;
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #1a1205, #2b1e0a);
+        }
+
+        .answer-input::placeholder {
+            color: #d4af37;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+
+        .submit-btn {
+            display: block;
+            width: 88%;
+            max-width: 350px;
+            margin: 0 auto;
+            padding: 22px;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #b8860b 0%, #ffd700 48%, #b8860b 100%);
+            background-size: 200% 100%;
+            border: 5px solid #d4af37;
+            color: #000;
+            cursor: pointer;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 
+                0 7px 0 #8b4513,
+                0 12px 30px rgba(0,0,0,0.7),
+                inset 0 2px 0 rgba(255,255,255,0.4),
+                0 0 30px rgba(255,215,0,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background-position: 100% 0;
+            transform: translateY(-4px);
+            box-shadow: 
+                0 10px 0 #8b4513,
+                0 18px 40px rgba(0,0,0,0.8),
+                0 0 40px rgba(255,215,0,0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #8b4513, 0 6px 15px rgba(0,0,0,0.6);
+        }
+
+        /* پیام خطا لوکس */
+        .error-message {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #8b0000, #a52a2a);
+            color: #fff;
+            padding: 20px 40px;
+            border: 4px solid #ff4444;
+            font-size: 1.15rem;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 
+                0 0 35px rgba(255,68,68,0.6),
+                10px 10px 0 rgba(0,0,0,0.8),
+                inset 0 0 20px rgba(255,255,255,0.1);
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.5s ease;
+            font-family: 'Georgia', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .error-message.show {
+            opacity: 1;
+            bottom: 40px;
+            animation: errorLux 0.7s ease;
+        }
+
+        @keyframes errorLux {
+            0%, 100% { transform: translateX(-50%) rotate(0); }
+            20% { transform: translateX(-50%) rotate(-2deg); }
+            40% { transform: translateX(-50%) rotate(2deg); }
+            60% { transform: translateX(-50%) rotate(-1deg); }
+            80% { transform: translateX(-50%) rotate(1deg); }
+        }
+
+        /* مودال مجلل */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 200000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1205, #2b1e0a);
+            border: 8px solid #d4af37;
+            padding: 55px 40px;
+            max-width: 90%;
+            width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 14px;
+            box-shadow: 
+                0 0 60px rgba(212,175,55,0.7),
+                inset 0 0 50px rgba(212,175,55,0.15),
+                18px 18px 0 rgba(0,0,0,0.9);
+            position: relative;
+            text-align: center;
+        }
+
+.modal-content::before {
+            content: '';
+            position: absolute;
+            top: 18px; left: 18px; right: 18px; bottom: 18px;
+            border: 3px double #ffd700;
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        .modal-image-wrapper {
+            margin-bottom: 35px;
+            border: 6px solid #d4af37;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            cursor: zoom-in;
+            transition: transform 0.4s;
+        }
+
+        .modal-image-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            filter: sepia(0.75) contrast(1.25) brightness(0.85);
+            transition: filter 0.4s;
+        }
+
+        .modal-image-wrapper:hover .modal-image {
+            filter: sepia(0.5) contrast(1.35) brightness(1);
+        }
+
+        .modal-text {
+            font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+            line-height: 2.2;
+            margin-bottom: 20px; /* کاهش فاصله پایین متن */
+            color: #fff8e1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        /* باکس کلید — بالاتر و نزدیک‌تر */
+        .key-selector-container {
+            margin-top: -10px; /* بالا آوردن باکس کلید */
+            margin-bottom: 35px;
+        }
+
+        .key-select {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.45rem;
+            background: linear-gradient(135deg, #0f0a00, #1a1205);
+            border: 4px solid #8b4513;
+            color: #b2910c;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: inset 0 4px 12px rgba(0,0,0,0.8), 0 0 0 2px #d4af37 inset;
+            font-family: 'Georgia', serif;
+            transition: all 0.4s ease;
+        }
+
+        .key-select:focus {
+            border-color: #978835;
+            outline: none;
+            box-shadow: 0 0 30px rgba(255,215,0,0.6), 0 0 0 3px #d4af37 inset;
+            transform: scale(1.01);
+        }
+
+        .modal-submit-btn {
+            width: 85%;
+            max-width: 320px;
+            margin: 0 auto;
+            padding: 20px;
+            font-size: 1.35rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #b8860b 0%, #ffd700 48%, #b8860b 100%);
+            border: 5px solid #d4af37;
+            color: #000;
+            cursor: pointer;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3.5px;
+            box-shadow: 0 7px 0 #8b4513, 0 12px 30px rgba(0,0,0,0.7);
+            transition: all 0.4s;
+        }
+
+        .modal-submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #8b4513, 0 18px 40px rgba(0,0,0,0.8);
+        }
+
+        .modal-submit-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #8b4513;
+        }
+
+        .final-message {
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(26,18,5,0.9));
+            padding: 35px;
+            border: 3px double #d4af37;
+            border-radius: 10px;
+            margin: 30px 0;
+            font-size: clamp(1.1rem, 3.2vw, 1.5rem);
+            line-height: 2.4;
+            text-align: justify;
+            color: #fff8e1;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            position: relative;
+        }
+
+        .final-message::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px dashed rgba(212,175,55,0.4);
+            border-radius: 8px;
+        }
+
+
+@media (max-width: 480px) {
+            .question-box, .modal-content { padding: 40px 25px; }
+            .submit-btn, .modal-submit-btn { width: 94%; font-size: 1.2rem; }
+            h1 { letter-spacing: 8px; }
+            .deco-corner { width: 40px; height: 40px; }
+            .key-selector-container { margin-top: -5px; }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>رمز عبور را وارد کن</h1>
-    <input id="passwordInput" placeholder="رمز چیست؟" type="text">
-    <br>
-    <button onclick="checkPassword()">ورود</button>
-    <div id="message"></div>
-  </div>
+    <div class="crt-overlay"></div>
+    <div class="noise"></div>
 
-  <audio id="unlockSound" src="https://assets.mixkit.co/sfx/preview/mixkit-lock-unlocking-2851.mp3"></audio>
-  <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-click-error-1110.mp3"></audio>
+    <div class="container">
+        <h1>سیاهچاله</h1>
 
-  <script>
-    function checkPassword() {
-      const pass = document.getElementById('passwordInput').value.trim();
-      const unlockSound = document.getElementById('unlockSound');
-      const errorSound = document.getElementById('errorSound');
-      const message = document.getElementById('message');
+        <div class="question-box">
+            <div class="luxury-frame"></div>
+            <div class="deco-corner tl"></div>
+            <div class="deco-corner tr"></div>
+            <div class="deco-corner bl"></div>
+            <div class="deco-corner br"></div>
+            <div class="engraving"></div>
 
-      if (pass === "رشوه یا کمک") {
-        unlockSound.play();
-        message.style.color = "lightgreen";
-        message.textContent = "دسترسی تأیید شد...";
-        setTimeout(() => {
-          window.location.href = "journal.html";
-        }, 2000);
-      } else {
-        errorSound.play();
-        message.style.color = "#f88";
-        message.textContent = "رمز اشتباه است.";
-      }
-    }
-  </script>
+            <p class="question-text">
+                پس از حل معما به چه کلمه ای ویا عبارتی رسیدید؟
+            </p>
+
+            <input type="text" class="answer-input" placeholder="رمز را وارد کنید..." autocomplete="off">
+
+            <button class="submit-btn">ارسال پاسخ</button>
+        </div>
+    </div>
+
+    <div class="error-message">
+        <span>پاسخ نادرست! دوباره تلاش کن.</span>
+    </div>
+
+    <!-- مودال اصلی -->
+    <div class="modal-overlay" id="mainModal">
+        <div class="modal-content">
+            <div class="modal-image-wrapper">
+                <img src="a.jpg" alt="تصویر کلید" class="modal-image">
+            </div>
+
+            <p class="modal-text">
+                این کلید در راهرو با کدام کلید مطابقت دارد؟
+            </p>
+
+            <!-- باکس کلید بالاتر -->
+            <div class="key-selector-container">
+                <select class="key-select" id="keySelect">
+                    <option value="1">کلید ۱</option>
+                    <option value="2">کلید ۲</option>
+                    <option value="3">کلید ۳</option>
+                    <option value="4">کلید ۴</option>
+                    <option value="5">کلید ۵</option>
+                    <option value="6">کلید ۶</option>
+                    <option value="7">کلید ۷</option>
+                    <option value="8">کلید ۸</option>
+                    <option value="9">کلید ۹</option>
+                    <option value="10">کلید ۱۰</option>
+                    <option value="11">کلید ۱۱</option>
+                    <option value="12">کلید ۱۲</option>
+                </select>
+            </div>
+
+            <button class="modal-submit-btn" id="finalSubmit">ارسال</button>
+        </div>
+    </div>
+
+    <!-- مودال نهایی -->
+    <div class="modal-overlay" id="finalModal">
+        <div class="modal-content">
+            <div class="final-message">
+                منطقی به نظر می‌رسید! با این حال، تا زمانی که هر شش کلید را وارد نکنید، نمی‌توانید کلید اصلی را بچرخانید. راه‌حل خود را یادداشت می‌کنید و به اتاق‌های دیگر می‌روید.
+            </div>
+            <button class="modal-submit-btn" id="closeFinal">ادامه</button>
+        </div>
+    </div>
+
+    <script>
+        const answerInput = document.querySelector('.answer-input');
+        const submitBtn = document.querySelector('.submit-btn');
+        const errorMsg = document.querySelector('.error-message');
+        const mainModal = document.getElementById('mainModal');
+        const finalModal = document.getElementById('finalModal');
+        const keySelect = document.getElementById('keySelect');
+        const finalSubmit = document.getElementById('finalSubmit');
+        const closeFinal = document.getElementById('closeFinal');
+
+        const CORRECT_CODE = "قلب سیاه";
+        const CORRECT_KEY = "3";
+
+        function showError() {
+            errorMsg.classList.add('show');
+            setTimeout(() => errorMsg.classList.remove('show'), 3000);
+        }
+
+        submitBtn.addEventListener('click', () => {
+            if (answerInput.value.trim() === CORRECT_CODE) {
+                mainModal.classList.add('active');
+            } else {
+                showError();
+                answerInput.value = '';
+            }
+        });
+
+
+answerInput.addEventListener('keypress', e => {
+            if (e.key === 'Enter') submitBtn.click();
+        });
+
+        finalSubmit.addEventListener('click', () => {
+            if (keySelect.value === CORRECT_KEY) {
+                mainModal.classList.remove('active');
+                finalModal.classList.add('active');
+            } else {
+                showError();
+            }
+        });
+
+        closeFinal.addEventListener('click', () => {
+            finalModal.classList.remove('active');
+            answerInput.value = '';
+            keySelect.value = "1";
+        });
+
+        document.querySelector('.modal-image-wrapper').addEventListener('click', function() {
+            this.classList.toggle('zoomed');
+            this.style.transform = this.classList.contains('zoomed') ? 'scale(1.9)' : 'scale(1)';
+        });
+
+        [mainModal, finalModal].forEach(modal => {
+            modal.addEventListener('click', e => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
