@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آزمایشگاه زیست شناسی</title>
+    <title>سیاهچاله</title>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -90,29 +90,6 @@
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* عنوان مجلل - ساده‌تر */
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            color: #a8a8a8;
-            font-weight: 700;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            text-shadow: 
-                0 0 15px #5c4a3a,
-                0 0 30px #3c2f2f,
-                0 0 45px #000000,
-                2px 2px 0 #000;
-            margin-bottom: 50px;
-            filter: contrast(1.1) brightness(1.05);
-            position: relative;
-            animation: titlePulse 5s ease-in-out infinite;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { text-shadow: 0 0 15px #5c4a3a, 0 0 30px #3c2f2f, 0 0 45px #000000, 2px 2px 0 #000; }
-            50% { text-shadow: 0 0 25px #a8a8a8, 0 0 40px #a8a8a8, 0 0 55px #5c4a3a, 2px 2px 0 #000; }
         }
 
         /* باکس مجلل — ساده */
@@ -513,7 +490,6 @@
             body { padding: 15px; }
             .question-box, .modal-content { padding: 35px 25px; }
             .submit-btn, .modal-submit-btn { width: 96%; padding: 18px; font-size: 1.2rem; letter-spacing: 1.5px; }
-            h1 { letter-spacing: 6px; margin-bottom: 35px; font-size: clamp(2rem, 7vw, 3.5rem); }
             .key-selector-container { margin-bottom: 25px; }
             .answer-input { padding: 18px 20px; font-size: 1.3rem; margin-bottom: 25px; }
             .question-text { margin-bottom: 25px; font-size: 1.2rem; line-height: 1.8; }
@@ -536,7 +512,6 @@
     <div class="noise"></div>
 
     <div class="container">
-        <h1>آزمایشگاه زیست شناسی</h1>
 
         <div class="question-box">
 
@@ -593,7 +568,7 @@
             <div class="final-message">
                 منطقی به نظر می‌رسید! با این حال، تا زمانی که هر شش کلید را وارد نکنید، نمی‌توانید کلید اصلی را بچرخانید. راه‌حل خود را یادداشت می‌کنید و به اتاق‌های دیگر می‌روید.
             </div>
-         
+           
         </div>
     </div>
 
@@ -607,18 +582,18 @@
         const finalSubmit = document.getElementById('finalSubmit');
         const closeFinal = document.getElementById('closeFinal');
 
-        const CORRECT_CODE = "درون دریا";
-        const CORRECT_KEY = "5";
+        const CORRECT_CODE = "عدم حضور سه گانه";
+        const CORRECT_KEY = "2";
 
         function showError() {
             errorMsg.classList.add('show');
             setTimeout(() => errorMsg.classList.remove('show'), 3000);
         }
 
-        // بهبود ارسال پاسخ: case insensitive و trim
+        // بهبود ارسال پاسخ: case insensitive و بدون حساسیت به فاصله
         submitBtn.addEventListener('click', () => {
-            const userAnswer = answerInput.value.trim().toLowerCase().replace(/\s+/g, ' ');
-            const correct = CORRECT_CODE.toLowerCase().replace(/\s+/g, ' ');
+            const userAnswer = answerInput.value.trim().replace(/\s+/g, '').toLowerCase();
+            const correct = CORRECT_CODE.toLowerCase().replace(/\s+/g, '');
             if (userAnswer === correct) {
                 mainModal.classList.add('active');
                 answerInput.value = '';
